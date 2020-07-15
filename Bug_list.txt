@@ -1,0 +1,16 @@
+Player :
+- Ketika lagi streaming di player dan tekan stop aplikasi error null currentTrack.artist karena state hilang (Make new Screen more)
+
+Profile :
+- Masih kosong
+
+Notification :
+- Ambil notification firebase
+
+Playlist :
+- Create Playlist from podcast
+- add podcast to Playlist
+- remove playlist / podcast
+
+Reward :
+- Reward for user who stream our app

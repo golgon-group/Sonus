@@ -1,0 +1,18 @@
+{
+  "stream": [
+    {
+      "id": "cityradio",
+      "title": "City Radio",
+      "artist": "City",
+      "url": "http://live.cityradio.id:9590/",
+      "artwork": "https://s3-sa-east-1.amazonaws.com/gonative/cover1.png"
+    },
+    {
+      "id": "medanfm",
+      "title": "Medan FM",
+      "artist": "Medan",
+      "url": "http://streaming.medanfm.id:9630/",
+      "artwork": "https://s3-sa-east-1.amazonaws.com/gonative/cover2.png"
+    }
+  ]
+}
