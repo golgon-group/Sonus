@@ -132,8 +132,8 @@ android {
         applicationId "com.cmg.sonus"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 12
-        versionName "2.0.2"
+        versionCode 14
+        versionName "2.0.4"
         multiDexEnabled true
     }
     splits {

@@ -102,10 +102,10 @@ export function* setTrack({track, trackId}) {
 
   // reactotron.log('Currently play : ' + trackId);
   // yield put(PlayerActions.setTrackSuccess(track));
-  yield put(PlayerActions.play());
-
-  yield delay(1500);
   yield call(Actions.player);
+
+  yield delay(1000);
+  yield put(PlayerActions.play());
   // reactotron.log('%cstarting tasks...', 'color: #16b141');
   yield call(runTasks);
   // reactotron.log('%call tasks completed', 'color: #1f29c5');
@@ -118,144 +118,259 @@ function* fetchData() {
 
   reactotron.log('Lagi streaming ? ' + isStream);
 
-  try {
-    while (isStream) {
-      let artist = '';
-      let title = '';
-      let imgart = null;
-      let time = 10;
-      const programData = yield call(getProgram);
-      let updTrack = null;
+  while (isStream) {
+    let artist = '';
+    let title = '';
+    let imgart = null;
+    let time = 10;
+    const programData = yield call(getProgram);
+    let updTrack = null;
 
-      time = yield call(getTime);
+    time = yield call(getTime);
 
-      yield axios.get(`${currentTrack.apiUrl}/nowplaying`).then(res => {
-        artist = res.data.song_artist;
-        title = res.data.song_title;
+    yield axios.get(`${currentTrack.apiUrl}/nowplaying`).then(res => {
+      artist = res.data.song_artist;
+      title = res.data.song_title;
+      imgart = currentTrack.artwork;
+
+      updTrack = {
+        id: currentTrack.id,
+        title: title,
+        artist: artist,
+        url: currentTrack.url,
+        artwork: imgart,
+        urlWeb: currentTrack.urlWeb,
+        apiUrl: currentTrack.apiUrl,
+        duration: time,
+      };
+    });
+
+    if (title === '' && artist === '') {
+      let program = programData.data;
+
+      // reactotron.log('Nama Program Acara ', program);
+
+      if (typeof program.nama_program === 'undefined') {
+        title = currentTrack.title;
+        artist = currentTrack.artist;
         imgart = currentTrack.artwork;
-
-        updTrack = {
-          id: currentTrack.id,
-          title: title,
-          artist: artist,
-          url: currentTrack.url,
-          artwork: imgart,
-          urlWeb: currentTrack.urlWeb,
-          apiUrl: currentTrack.apiUrl,
-          duration: time,
-        };
-      });
-
-      if (title === '' && artist === '') {
-        let program = programData.data;
-
-        // reactotron.log('Nama Program Acara ', program);
-
-        if (typeof program.nama_program === 'undefined') {
-          title = currentTrack.title;
-          artist = currentTrack.artist;
-          imgart = currentTrack.artwork;
-        } else {
-          title =
-            program.data.nama_program === ''
-              ? currentTrack.title
-              : program.data.nama_program;
-          artist =
-            program.data.dj === ''
-              ? currentTrack.artist
-              : program.data.dj2 === ''
-              ? program.data.dj
-              : program.data.dj + ' & ' + program.data.dj2;
-          imgart =
-            program.data.foto2 === ''
-              ? currentTrack.artwork
-              : 'https://www.' +
-                currentTrack.urlWeb +
-                '/assets/program_image/' +
-                program.data.foto2;
-        }
-
-        updTrack = {
-          id: currentTrack.id,
-          title: title,
-          artist: artist,
-          url: currentTrack.url,
-          artwork: imgart,
-          urlWeb: currentTrack.urlWeb,
-          apiUrl: currentTrack.apiUrl,
-          duration: time,
-        };
-
-        reactotron.log('Kosong', {
-          artist: artist,
-          title: title,
-          artwork: imgart,
-        });
       } else {
-        updTrack = yield axios
-          .get(
-            `https://itunes.apple.com/search?term=${artist}-${title}&limit=2`,
-          )
-          .then(respJson => {
-            if (respJson.data.resultCount == '0') {
-              imgart = currentTrack.artwork;
-            } else {
-              var ResultData = respJson.data.results[0];
-              imgart = ResultData.artworkUrl100.replace(/100x100/, '500x500');
-            }
-
-            return {
-              id: currentTrack.id,
-              title: title,
-              artist: artist,
-              url: currentTrack.url,
-              artwork: imgart,
-              urlWeb: currentTrack.urlWeb,
-              apiUrl: currentTrack.apiUrl,
-              duration: time,
-            };
-          });
-
-        reactotron.log('Isi', {
-          artist: artist,
-          title: title,
-          artwork: imgart,
-        });
+        title =
+          program.data.nama_program === ''
+            ? currentTrack.title
+            : program.data.nama_program;
+        artist =
+          program.data.dj === ''
+            ? currentTrack.artist
+            : program.data.dj2 === ''
+            ? program.data.dj
+            : program.data.dj + ' & ' + program.data.dj2;
+        imgart =
+          program.data.foto2 === ''
+            ? currentTrack.artwork
+            : 'https://www.' +
+              currentTrack.urlWeb +
+              '/assets/program_image/' +
+              program.data.foto2;
       }
 
-      TrackPlayer.updateMetadataForTrack(currentTrack.id, {
+      updTrack = {
+        id: currentTrack.id,
+        title: title,
+        artist: artist,
+        url: currentTrack.url,
+        artwork: imgart,
+        urlWeb: currentTrack.urlWeb,
+        apiUrl: currentTrack.apiUrl,
+        duration: time,
+      };
+
+      reactotron.log('Kosong', {
         artist: artist,
         title: title,
         artwork: imgart,
-        duration: time,
       });
+    } else {
+      updTrack = yield axios
+        .get(`https://itunes.apple.com/search?term=${artist}-${title}&limit=2`)
+        .then(respJson => {
+          if (respJson.data.resultCount == '0') {
+            imgart = currentTrack.artwork;
+          } else {
+            var ResultData = respJson.data.results[0];
+            imgart = ResultData.artworkUrl100.replace(/100x100/, '500x500');
+          }
 
-      reactotron.log('Waktu Delay : ' + Math.round(time * 1000));
+          return {
+            id: currentTrack.id,
+            title: title,
+            artist: artist,
+            url: currentTrack.url,
+            artwork: imgart,
+            urlWeb: currentTrack.urlWeb,
+            apiUrl: currentTrack.apiUrl,
+            duration: time,
+          };
+        });
 
-      yield put(PlayerActions.setTrackSuccess(updTrack));
-      yield delay(Math.round(time * 1000));
+      reactotron.log('Isi', {
+        artist: artist,
+        title: title,
+        artwork: imgart,
+      });
     }
-  } catch (error) {
-    Platform.OS == 'android' &&
-      ToastAndroid.show(
-        "Can't get Meta data from server " +
-          error.message +
-          ', Please check you connection or Exit the App',
-        ToastAndroid.SHORT,
-      );
 
-    reactotron.log(
-      "Can't get Meta data from server " +
-        error.message +
-        ', Please check you connection or Exit the App',
-    );
+    TrackPlayer.updateMetadataForTrack(currentTrack.id, {
+      artist: artist,
+      title: title,
+      artwork: imgart,
+      duration: time,
+    });
 
-    yield put(PlayerActions.setTrackSuccess(currentTrack));
-  } finally {
-    if (yield cancelled()) {
-      reactotron.log('Berhenti streaming !');
-    }
+    reactotron.log('Waktu Delay : ' + Math.round(time * 1000));
+
+    yield put(PlayerActions.setTrackSuccess(updTrack));
+    yield delay(Math.round(time * 1000));
   }
+
+  // try {
+  //   while (isStream) {
+  //     let artist = '';
+  //     let title = '';
+  //     let imgart = null;
+  //     let time = 10;
+  //     const programData = yield call(getProgram);
+  //     let updTrack = null;
+
+  //     time = yield call(getTime);
+
+  //     yield axios.get(`${currentTrack.apiUrl}/nowplaying`).then(res => {
+  //       artist = res.data.song_artist;
+  //       title = res.data.song_title;
+  //       imgart = currentTrack.artwork;
+
+  //       updTrack = {
+  //         id: currentTrack.id,
+  //         title: title,
+  //         artist: artist,
+  //         url: currentTrack.url,
+  //         artwork: imgart,
+  //         urlWeb: currentTrack.urlWeb,
+  //         apiUrl: currentTrack.apiUrl,
+  //         duration: time,
+  //       };
+  //     });
+
+  //     if (title === '' && artist === '') {
+  //       let program = programData.data;
+
+  //       // reactotron.log('Nama Program Acara ', program);
+
+  //       if (typeof program.nama_program === 'undefined') {
+  //         title = currentTrack.title;
+  //         artist = currentTrack.artist;
+  //         imgart = currentTrack.artwork;
+  //       } else {
+  //         title =
+  //           program.data.nama_program === ''
+  //             ? currentTrack.title
+  //             : program.data.nama_program;
+  //         artist =
+  //           program.data.dj === ''
+  //             ? currentTrack.artist
+  //             : program.data.dj2 === ''
+  //             ? program.data.dj
+  //             : program.data.dj + ' & ' + program.data.dj2;
+  //         imgart =
+  //           program.data.foto2 === ''
+  //             ? currentTrack.artwork
+  //             : 'https://www.' +
+  //               currentTrack.urlWeb +
+  //               '/assets/program_image/' +
+  //               program.data.foto2;
+  //       }
+
+  //       updTrack = {
+  //         id: currentTrack.id,
+  //         title: title,
+  //         artist: artist,
+  //         url: currentTrack.url,
+  //         artwork: imgart,
+  //         urlWeb: currentTrack.urlWeb,
+  //         apiUrl: currentTrack.apiUrl,
+  //         duration: time,
+  //       };
+
+  //       reactotron.log('Kosong', {
+  //         artist: artist,
+  //         title: title,
+  //         artwork: imgart,
+  //       });
+  //     } else {
+  //       updTrack = yield axios
+  //         .get(
+  //           `https://itunes.apple.com/search?term=${artist}-${title}&limit=2`,
+  //         )
+  //         .then(respJson => {
+  //           if (respJson.data.resultCount == '0') {
+  //             imgart = currentTrack.artwork;
+  //           } else {
+  //             var ResultData = respJson.data.results[0];
+  //             imgart = ResultData.artworkUrl100.replace(/100x100/, '500x500');
+  //           }
+
+  //           return {
+  //             id: currentTrack.id,
+  //             title: title,
+  //             artist: artist,
+  //             url: currentTrack.url,
+  //             artwork: imgart,
+  //             urlWeb: currentTrack.urlWeb,
+  //             apiUrl: currentTrack.apiUrl,
+  //             duration: time,
+  //           };
+  //         });
+
+  //       reactotron.log('Isi', {
+  //         artist: artist,
+  //         title: title,
+  //         artwork: imgart,
+  //       });
+  //     }
+
+  //     TrackPlayer.updateMetadataForTrack(currentTrack.id, {
+  //       artist: artist,
+  //       title: title,
+  //       artwork: imgart,
+  //       duration: time,
+  //     });
+
+  //     reactotron.log('Waktu Delay : ' + Math.round(time * 1000));
+
+  //     yield put(PlayerActions.setTrackSuccess(updTrack));
+  //     yield delay(Math.round(time * 1000));
+  //   }
+  // } catch (error) {
+  //   Platform.OS == 'android' &&
+  //     ToastAndroid.show(
+  //       "Can't get Meta data from server " +
+  //         error.message +
+  //         ', Please check you connection or Exit the App',
+  //       ToastAndroid.SHORT,
+  //     );
+
+  //   reactotron.log(
+  //     "Can't get Meta data from server " +
+  //       error.message +
+  //       ', Please check you connection or Exit the App',
+  //   );
+
+  //   yield put(PlayerActions.setTrackSuccess(currentTrack));
+  // } finally {
+  //   if (yield cancelled()) {
+  //     reactotron.log('Berhenti streaming !');
+  //   }
+  // }
 }
 
 function* getProgram() {

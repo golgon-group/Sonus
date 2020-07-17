@@ -8,11 +8,26 @@ const {height, width} = Dimensions.get('window');
 
 export const Container = styled.View`
   background: rgba(19, 19, 19, 0.8);
+  height: ${height};
+  width: ${width};
+  ${'' /* border-color: rgba(233, 0, 0, 1); */}
+  ${'' /* border-width: 1; */}
+
+  ${'' /* align-items: center; */}
+  justify-content: center;
+  ${'' /* padding-bottom: ${getBottomSpace()}px; */}
+`;
+
+export const ScrollList = styled.ScrollView.attrs({
+  // contentInsetAdjustmentBehavior: 'automatic',
+  showsVerticalScrollIndicator: false,
+})`
+  background: rgba(19, 19, 19, 0.8);
   height: 100%;
   width: 100%;
 
   ${'' /* align-items: center; */}
-  justify-content: center;
+  ${'' /* justify-content: center; */}
   padding-bottom: ${getBottomSpace()}px;
 `;
 
@@ -37,6 +52,7 @@ export const CoverBackground = styled.Image.attrs({
 })`
   position: absolute;
   height: ${height};
+  width: ${width};
   left: 0;
   right: 0;
   bottom: 0;
