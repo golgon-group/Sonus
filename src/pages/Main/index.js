@@ -101,7 +101,60 @@ const MyLoader = () => (
   </ContentLoader>
 );
 
-const radioChannel = [
+const AndroidChannel = [
+  {
+    name: 'City Radio Regular',
+    // @ts-ignore
+    image: require('~/assets/images/city_fm.jpg'),
+    data: {
+      id: 'cityradio',
+      title: '95.9 City Radio',
+      artist: 'City',
+      url: 'https://live.cityradio.id/cityradio.ogg',
+      // url: 'https://20673.live.streamtheworld.com/KISS_92AAC.aac',
+      // @ts-ignore
+      artwork: require('~/assets/images/city_fm_square.jpg'),
+      urlWeb: 'cityradio.id/5.0',
+      apiUrl: 'https://api.cityradio.id/api',
+      duration: 100,
+    },
+  },
+  {
+    name: 'City Radio Mandarin',
+    // @ts-ignore
+    image: require('~/assets/images/city_fm_mandarin.jpg'),
+    data: {
+      id: 'citymandarin',
+      title: '95.9 City Radio',
+      artist: 'City Mandarin',
+      url: 'https://live.cityradio.id/cr-mandarin.ogg',
+      // url: 'https://live.cityradio.id/cr-mandarin.ogg',
+      // @ts-ignore
+      artwork: require('~/assets/images/city_mandarin_square.jpg'),
+      urlWeb: 'cityradio.id/5.0',
+      apiUrl: 'https://api.cityradio.id/api/mandarin',
+      duration: 100,
+    },
+  },
+  {
+    name: 'Medan FM',
+    // @ts-ignore
+    image: require('~/assets/images/medan_fm.jpg'),
+    data: {
+      id: 'medanfm',
+      title: '96.3 Medan FM',
+      artist: 'Medan FM',
+      url: 'https://live.medanfm.id/medanfm.ogg',
+      // @ts-ignore
+      artwork: require('~/assets/images/medan_fm_square.jpg'),
+      urlWeb: 'medanfm.id/2017',
+      apiUrl: 'https://api.medanfm.id/api',
+      duration: 100,
+    },
+  },
+];
+
+const iOSChannel = [
   {
     name: 'City Radio Regular',
     // @ts-ignore
@@ -128,7 +181,7 @@ const radioChannel = [
       title: '95.9 City Radio',
       artist: 'City Mandarin',
       url: 'https://digital.cityradio.id/',
-      // url: 'https://live.cityradio.id/cr-mandarin.ogg',
+      // url: 'https://20673.live.streamtheworld.com/ONE_FM_913AAC.aac',
       // @ts-ignore
       artwork: require('~/assets/images/city_mandarin_square.jpg'),
       urlWeb: 'cityradio.id/5.0',
@@ -169,6 +222,9 @@ class Main extends Component {
 
   render() {
     const {currentTrack, play, pause, stop} = this.props;
+    // const radioChannel = Platform.OS == 'android' ? AndroidChannel : iOSChannel;
+
+    const radioChannel = iOSChannel;
 
     return (
       <Container>
@@ -206,7 +262,7 @@ class Main extends Component {
                             : 'play'
                         }
                         family={'font-awesome'}
-                        size={18}
+                        size={width >= 500 ? 32 : 18}
                         color={Theme.COLORS.WHITE}
                       />
                     </View>
@@ -292,7 +348,7 @@ const styles = StyleSheet.create({
   // headTitlesText: { marginTop: 10, fontFamily: Fonts.FONTS.DEFAULT, fontSize: 15, color: Theme.COLORS.WHITE },
   htBoxBackground: {
     width: '100%',
-    height: 180,
+    height: width >= 500 ? height / 3 : height / 3.5 - 50,
     backgroundColor: Theme.COLORS.WHITE,
     // borderRadius: 10,
     alignItems: 'center',
@@ -305,9 +361,9 @@ const styles = StyleSheet.create({
     right: 10,
     backgroundColor: 'rgba(20, 20, 20, .5)',
     // borderColor: Theme.COLORS.BORDER,
-    borderRadius: 36 / 2,
-    height: 36,
-    width: 36,
+    borderRadius: width >= 500 ? 64 / 2 : 36 / 2,
+    height: width >= 500 ? 64 : 36,
+    width: width >= 500 ? 64 : 36,
     justifyContent: 'center',
     alignItems: 'center',
   },

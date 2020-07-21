@@ -138,9 +138,10 @@ class Routes extends React.Component {
           let cs = Actions.currentScene;
           // ToastAndroid.show('Current Scene : '+cs, ToastAndroid.SHORT)
           // let isOpen = Actions.;
+          // Actions.pop();
           if (cs === 'login' || cs === '_home' || cs === 'home') {
-            // reactotron.log('Current Scene : ' + cs);
-            // reactotron.log('Drawer Cond : ' + JSON.stringify(isOpen));
+            reactotron.log('Current Scene : ' + cs);
+            //   // reactotron.log('Drawer Cond : ' + JSON.stringify(isOpen));
             if (this.lastBackButtonPress + 2000 >= new Date().getTime()) {
               if (currentTrack && !player.playing) {
                 reactotron.log('No Player is playing !');
@@ -160,9 +161,10 @@ class Routes extends React.Component {
             );
             this.lastBackButtonPress = new Date().getTime();
             return true;
-          } else {
-            Actions.pop();
           }
+          // else {
+          //   Actions.pop();
+          // }
         }}
         titleStyle={styles.navTitle}
         headerLayoutPreset="center"
@@ -222,9 +224,10 @@ class Routes extends React.Component {
               component={Main}
               title="SONUS"
               renderLeftButton={() => null}
+              type={ActionConst.RESET}
               // renderRightButton={this._renderRightButton}
             />
-            <Stack
+            {/* <Stack
               key="profile"
               direction="horizontal"
               title="PROFILE"
@@ -278,7 +281,7 @@ class Routes extends React.Component {
               hideNavBar
               renderBackButton={this._renderLeftButton}
               direction="horizontal"
-            />
+            /> */}
             <Scene
               key="player"
               hideNavBar

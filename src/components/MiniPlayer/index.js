@@ -44,7 +44,7 @@ function Miniplayer(props) {
             <Icon
               name={'angle-up'}
               family={'font-awesome'}
-              size={32}
+              size={width >= 500 ? 44 : 32}
               color={Theme.COLORS.WHITE}
             />
           </View>
@@ -68,14 +68,18 @@ function Miniplayer(props) {
                   : 'play-circle-outline'
               }
               family={'material-community'}
-              size={32}
+              size={width >= 500 ? 44 : 32}
             />
           </TouchableOpacity>
           {!player.is_stream && (
             <TouchableOpacity
               style={styles.controlButtonContainer}
               onPress={next}>
-              <ControlIcon name={'skip-next'} family={'material-community'} />
+              <ControlIcon
+                name={'skip-next'}
+                family={'material-community'}
+                size={width >= 500 ? 44 : 32}
+              />
             </TouchableOpacity>
           )}
         </View>
@@ -99,18 +103,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
   },
-  cover: {
-    width: 140,
-    height: 140,
-    marginTop: 20,
-    backgroundColor: 'grey',
-  },
-  progress: {
-    height: 1,
-    width: '90%',
-    marginTop: 10,
-    flexDirection: 'row',
-  },
   expand: {
     width: '10%',
     marginLeft: 10,
@@ -122,7 +114,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontSize: 14,
+    fontSize: width >= 500 ? 24 : 14,
     fontFamily: Fonts.FONTS.Label,
     color: Theme.COLORS.WHITE,
   },
@@ -135,7 +127,7 @@ const styles = StyleSheet.create({
     margin: 5,
   },
   controlButtonText: {
-    fontSize: 18,
+    fontSize: width >= 500 ? 28 : 18,
     textAlign: 'center',
     color: Theme.COLORS.WHITE,
   },

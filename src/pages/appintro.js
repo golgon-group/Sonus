@@ -102,7 +102,7 @@ export default class App extends React.Component {
           family={'ionicon'}
           name={'md-checkmark'}
           color={'rgba(255, 255, 255, .9)'}
-          size={24}
+          size={width >= 500 ? 32 : 24}
           style={{backgroundColor: 'transparent'}}
         />
       </View>
@@ -114,6 +114,7 @@ export default class App extends React.Component {
     // navigation or simply by controlling state
     this.setState({showRealApp: true}, () => {
       AsyncStorage.setItem('FirstTime', 'false');
+      // AsyncStorage.clear();
       Actions.home();
     });
   };
@@ -168,18 +169,18 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   title: {
-    fontSize: 23,
+    fontSize: width >= 500 ? 32 : 24,
     fontFamily: Fonts.FONTS.I_Title,
   },
   sub: {
-    fontSize: 13,
+    fontSize: width >= 500 ? 20 : 14,
     fontFamily: Fonts.FONTS.I_Sub,
   },
   buttonCircle: {
-    width: 40,
-    height: 40,
+    width: width >= 500 ? 60 : 40,
+    height: width >= 500 ? 60 : 40,
     backgroundColor: 'rgba(0, 0, 0, .2)',
-    borderRadius: 20,
+    borderRadius: width >= 500 ? 30 : 20,
     justifyContent: 'center',
     alignItems: 'center',
   },

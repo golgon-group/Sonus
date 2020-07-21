@@ -7,11 +7,12 @@ import {Icon} from '~/components';
 const {height, width} = Dimensions.get('window');
 
 export const Container = styled.View`
-  background: rgba(19, 19, 19, 0.8);
+  flex: 1;
+  background: rgba(20, 20, 20, 0.9);
   height: ${height};
   width: ${width};
-  ${'' /* border-color: rgba(233, 0, 0, 1); */}
-  ${'' /* border-width: 1; */}
+  ${'' /* border-color: rgba(233, 0, 0, 1);
+  border-width: 1; */}
 
   ${'' /* align-items: center; */}
   justify-content: center;
@@ -20,11 +21,12 @@ export const Container = styled.View`
 
 export const ScrollList = styled.ScrollView.attrs({
   // contentInsetAdjustmentBehavior: 'automatic',
+  contentContainerStyle: {flex: 1},
   showsVerticalScrollIndicator: false,
 })`
   background: rgba(19, 19, 19, 0.8);
-  height: 100%;
-  width: 100%;
+  height: ${height};
+  width: ${width};
 
   ${'' /* align-items: center; */}
   ${'' /* justify-content: center; */}
@@ -47,12 +49,12 @@ export const RightButton = styled.TouchableOpacity.attrs({
   right: 0px;
 `;
 
-export const CoverBackground = styled.Image.attrs({
+export const CoverBackground = styled.ImageBackground.attrs({
   blurRadius: 2,
 })`
   position: absolute;
-  height: ${height};
-  width: ${width};
+  height: 100%;
+  width: 100%;
   left: 0;
   right: 0;
   bottom: 0;
@@ -81,14 +83,16 @@ export const Title = styled.Text.attrs({
   numberOfLines: 2,
   ellipsizeMode: 'tail',
 })`
-  font-size: 24px;
-  text-shadow: 2px 2px 2px #000;
-  color: #fcfcfc;
+  font-size: ${width >= 500 ? '38px' : '24px'};
+  font-family: 'Raleway-Bold';
+  text-shadow: 1px 1px 1px #000;
+  color: #f4f4f4;
 `;
 
 export const Author = styled.Text`
-  font-size: 18px;
-  text-shadow: 2px 2px 2px #000;
+  font-size: ${width >= 500 ? '32px' : '18px'};
+  font-family: 'Raleway-Bold';
+  text-shadow: 1px 1px 1px #000;
   color: #f4f4f4;
   margin-top: 3px;
 `;
@@ -103,28 +107,13 @@ export const Controls = styled.View`
   padding-left: 30%;
   padding-right: 30%;
   justify-content: space-between;
+  align-items: center;
 `;
 
 export const ControlButton = styled.TouchableOpacity.attrs({
   hitSlop: {top: 5, left: 5, right: 5, bottom: 5},
-
-  // shadowOpacity: 2,
-  shadowColor: '#ce5937',
-  textShadowRadius: 4,
-  textShadowOffset: {width: 2, height: 2},
-  elevation: 5,
-})`
-  height: 50px;
-`;
+})``;
 
 export const ControlIcon = styled(Icon).attrs({
   color: '#FFF',
-  shadowColor: '#ce5937',
-  // shadowOpacity: 0.5,
-  shadowRadius: 5,
-  shadowOffset: {
-    width: 0, // These can't both be 0
-    height: 10, // i.e. the shadow has to be offset in some way
-  },
-  elevation: 5,
 })``;

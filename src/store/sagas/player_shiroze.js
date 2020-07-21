@@ -38,40 +38,10 @@ export function* trackChanged() {
     while (true) {
       const {nextTrack} = yield take(channel);
 
-      reactotron.log('Next Track', nextTrack);
-
       yield put(PlayerActions.setCurrent(nextTrack));
     }
   } finally {
     channel.close();
-  }
-}
-
-export function* metadataChanged() {
-  const Metachannel = eventChannel(emitter => {
-    const metaDataChange = TrackPlayer.addEventListener(
-      // @ts-ignore
-      'playback-metadata-received',
-      e => {
-        reactotron.log(e);
-        emitter(e);
-      },
-    );
-
-    return () => metaDataChange.remove();
-  });
-
-  try {
-    while (true) {
-      const nextMeta = yield take(Metachannel);
-
-      if (nextMeta.artist !== null) {
-        yield call(updMetaData, nextMeta);
-      }
-      // yield put(PlayerActions.setCurrent(nextTrack));
-    }
-  } finally {
-    Metachannel.close();
   }
 }
 
@@ -105,8 +75,6 @@ export function* init() {
 
   TrackPlayer.addEventListener('playback-track-changed', reactotron.log);
   TrackPlayer.addEventListener('playback-state', reactotron.log);
-
-  yield call(metadataChanged);
 }
 
 export function* setTrack({track, trackId}) {
@@ -124,14 +92,7 @@ export function* setTrack({track, trackId}) {
     yield call(TrackPlayer.stop);
     yield call(TrackPlayer.reset);
 
-    yield call(TrackPlayer.add, {
-      id: track.id,
-      url: track.url,
-      title: track.title,
-      artist: track.artist,
-      artwork: track.artwork,
-      duration: track.duration,
-    });
+    yield call(TrackPlayer.add, track);
     yield put(PlayerActions.setTrackSuccess(track));
   }
 
@@ -147,7 +108,7 @@ export function* setTrack({track, trackId}) {
   yield delay(1000);
   yield put(PlayerActions.play());
   // reactotron.log('%cstarting tasks...', 'color: #16b141');
-  // yield call(runTasks);
+  yield call(runTasks);
   // reactotron.log('%call tasks completed', 'color: #1f29c5');
   yield call(trackChanged);
 }
@@ -188,30 +149,23 @@ function* fetchData() {
     if (title === '' && artist === '') {
       // reactotron.log('Nama Program Acara ', programData.data);
 
-      if (typeof programData.data.nama_program === 'undefined') {
+      if (typeof programData.data === 'undefined') {
         title = currentTrack.title;
         artist = currentTrack.artist;
         imgart = currentTrack.artwork;
 
         reactotron.log('Masuk Kosong / Error');
       } else {
-        title =
-          programData.data.nama_program === ''
-            ? currentTrack.title
-            : programData.data.nama_program;
+        title = programData.data.nama_program;
         artist =
-          programData.data.nama_program === ''
-            ? currentTrack.artist
-            : programData.data.dj2 === ''
+          programData.data.dj2 === ''
             ? programData.data.dj
             : programData.data.dj + ' & ' + programData.data.dj2;
         imgart =
-          programData.data.nama_program === ''
-            ? currentTrack.artwork
-            : 'https://www.' +
-              currentTrack.urlWeb +
-              '/assets/program_image/' +
-              programData.data.foto2;
+          'https://www.' +
+          currentTrack.urlWeb +
+          '/assets/program_image/' +
+          programData.data.foto2;
 
         reactotron.log('Masuk Program Acara');
       }
@@ -262,12 +216,12 @@ function* fetchData() {
       });
     }
 
-    // TrackPlayer.updateMetadataForTrack(currentTrack.id, {
-    //   artist: artist,
-    //   title: title,
-    //   artwork: imgart,
-    //   duration: time,
-    // });
+    TrackPlayer.updateMetadataForTrack(currentTrack.id, {
+      artist: artist,
+      title: title,
+      artwork: imgart,
+      duration: time,
+    });
 
     reactotron.log('Waktu Delay : ' + Math.round(time * 1000));
 
@@ -484,11 +438,7 @@ function* getTime() {
     if (Response.data.time_current == '') {
       return 60;
     } else {
-      return Response.data.time_diff == '0'
-        ? 10
-        : Response.data.time_diff > 200
-        ? 195
-        : Response.data.time_diff;
+      return Response.data.time_diff == '0' ? 10 : Response.data.time_diff;
     }
   });
 }
@@ -508,160 +458,14 @@ function* runTasks() {
   }
 }
 
-function* findDefault() {
-  const curTrack = yield call(TrackPlayer.getCurrentTrack);
-  const radioChannel = [
-    {
-      id: 'cityradio',
-      title: '95.9 City Radio',
-      artist: 'City',
-      url: 'https://sc.cityradio.id/',
-      // url: 'https://20673.live.streamtheworld.com/KISS_92AAC.aac',
-      // @ts-ignore
-      artwork: require('~/assets/images/city_fm_square.jpg'),
-      urlWeb: 'cityradio.id/5.0',
-      apiUrl: 'https://api.cityradio.id/api',
-      duration: 100,
-    },
-    {
-      id: 'citymandarin',
-      title: '95.9 City Radio',
-      artist: 'City Mandarin',
-      url: 'https://digital.cityradio.id/',
-      // url: 'https://20673.live.streamtheworld.com/ONE_FM_913AAC.aac',
-      // @ts-ignore
-      artwork: require('~/assets/images/city_mandarin_square.jpg'),
-      urlWeb: 'cityradio.id/5.0',
-      apiUrl: 'https://api.cityradio.id/api/mandarin',
-      duration: 100,
-    },
-    {
-      id: 'medanfm',
-      title: '96.3 Medan FM',
-      artist: 'Medan FM',
-      url: 'https://sc.medanfm.id/',
-      // @ts-ignore
-      artwork: require('~/assets/images/medan_fm_square.jpg'),
-      urlWeb: 'medanfm.id/2017',
-      apiUrl: 'https://api.medanfm.id/api',
-      duration: 100,
-    },
-  ];
-
-  const defChannel =
-    Array.isArray(radioChannel) && radioChannel.find(el => el.id == curTrack);
-
-  return defChannel;
-}
-
-function* updMetaData(metaData) {
-  const currentTrack = yield select(state => state.player.track);
-
-  let artist = metaData.artist;
-  let title = metaData.title.substring(0, metaData.title.indexOf(' -'));
-  let imgart = null;
-  // let time = 10;
-  const programData = yield call(getProgram);
-  let updTrack = null;
-
-  const defData = yield call(findDefault);
-
-  // reactotron.log('Meta Data Default', defData);
-
-  if (title === '' || artist === '') {
-    // reactotron.log('Nama Program Acara ', programData.data);
-
-    if (typeof programData.data === 'undefined') {
-      title = defData.title;
-      artist = defData.artist;
-      imgart = defData.artwork;
-
-      reactotron.log('Masuk Kosong / Error');
-    } else {
-      title =
-        programData.data.nama_program === ''
-          ? defData.title
-          : programData.data.nama_program;
-      artist =
-        programData.data.nama_program === ''
-          ? defData.artist
-          : programData.data.dj2 === ''
-          ? programData.data.dj
-          : programData.data.dj + ' & ' + programData.data.dj2;
-      imgart =
-        programData.data.nama_program === ''
-          ? defData.artwork
-          : 'https://www.' +
-            defData.urlWeb +
-            '/assets/program_image/' +
-            programData.data.foto2;
-    }
-
-    updTrack = {
-      id: defData.id,
-      title: title,
-      artist: artist,
-      url: defData.url,
-      artwork: imgart,
-      urlWeb: defData.urlWeb,
-      apiUrl: defData.apiUrl,
-    };
-
-    reactotron.log('Kosong', {
-      artist: artist,
-      title: title,
-      artwork: imgart,
-    });
-  } else {
-    updTrack = yield axios
-      .get(`https://itunes.apple.com/search?term=${artist}-${title}&limit=2`)
-      .then(respJson => {
-        if (respJson.data.resultCount == '0') {
-          imgart = defData.artwork;
-        } else {
-          var ResultData = respJson.data.results[0];
-          imgart = ResultData.artworkUrl100.replace(/100x100/, '1024x1024');
-        }
-
-        return {
-          id: defData.id,
-          title: title,
-          artist: artist,
-          url: defData.url,
-          artwork: imgart,
-          urlWeb: defData.urlWeb,
-          apiUrl: defData.apiUrl,
-        };
-      });
-
-    reactotron.log('Isi', {
-      artist: artist,
-      title: title,
-      artwork: imgart,
-    });
-  }
-
-  TrackPlayer.updateMetadataForTrack(currentTrack.id, {
-    title: title,
-    artist: artist,
-    artwork: imgart,
-  });
-
-  yield put(PlayerActions.setTrackSuccess(updTrack));
-}
-
 export function* setPodcast({podcast, podcastId}) {
   const currentPodcast = yield select(state => state.player.podcast);
 
   // yield call(init, false);
 
   if (!currentPodcast || podcastId !== currentPodcast.id) {
-    if (Platform.OS == 'android') {
-      yield call(TrackPlayer.stop);
-      yield call(TrackPlayer.reset);
-    } else {
-      yield call(TrackPlayer.pause);
-    }
+    yield call(TrackPlayer.stop);
+    yield call(TrackPlayer.reset);
 
     yield call(TrackPlayer.add, [...podcast.tracks]);
     yield put(PlayerActions.setPodcastSuccess(podcast));

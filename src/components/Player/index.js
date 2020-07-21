@@ -45,102 +45,118 @@ function Player(props) {
 
   return (
     player.current != null && (
-      <ScrollList>
-        <Container>
-          <CoverBackground source={coverImg} />
-
-          <View
-            style={{
-              position: 'absolute',
-              left: 10,
-              top: Platform.OS === 'ios' ? getStatusBarHeight() + 10 : 20,
-              right: 10,
-              // zIndex: 5,
-            }}>
-            <BackButton onPress={() => Actions.pop()}>
-              <ControlIcon name="angle-down" family="font-awesome" size={32} />
-            </BackButton>
-            {/* <RightButton onPress={() => this.ActionSheet.show()}>
+      <Container>
+        <CoverBackground source={coverImg} />
+        <View
+          style={{
+            position: 'absolute',
+            left: 20,
+            top: Platform.OS === 'ios' ? getStatusBarHeight() + 10 : 20,
+            right: 20,
+            // zIndex: 5,
+          }}>
+          <BackButton onPress={() => Actions.pop()}>
+            <ControlIcon
+              name="angle-down"
+              family="fontisto"
+              size={width >= 500 ? 24 : 18}
+            />
+          </BackButton>
+          {/* <RightButton onPress={() => this.ActionSheet.show()}>
             <ControlIcon name="more-vert" family="material" size={32} />
           </RightButton> */}
-          </View>
+        </View>
 
-          {/* <Cover resizeMode={'contain'} source={currentTrack.artwork} /> */}
-          <View style={{marginTop: 50}}>
-            <FastImage
-              source={coverImg}
-              resizeMode={'contain'}
-              style={{width: width, height: width}}
-            />
-          </View>
-          <EpisodeInfo>
-            <Title>{currentTrack.title}</Title>
-            <Author>{currentTrack.artist}</Author>
-          </EpisodeInfo>
-
-          <Controls stream={player.is_stream}>
-            {!player.is_stream && (
-              <ControlButton onPress={prev}>
-                <ControlIcon name="skip-previous" family="material" size={32} />
-              </ControlButton>
-            )}
-            <ControlButton
-              onPress={() => {
-                // player.playing ? (player.is_stream ? stop : pause) : play;
-                if (player.playing) {
-                  if (player.is_stream) {
-                    Actions.pop();
-                    setTimeout(() => {
-                      stop();
-                    }, 500);
-                  } else {
-                    pause();
-                  }
-                } else {
-                  play();
-                }
-              }}>
-              <ControlIcon
-                name={
-                  player.playing
-                    ? player.is_stream
-                      ? 'stop'
-                      : 'pause'
-                    : 'play'
-                }
-                family="fontisto"
-                size={32}
-              />
-            </ControlButton>
-            {!player.is_stream && (
-              <ControlButton onPress={next}>
-                <ControlIcon name="skip-next" family="material" size={32} />
-              </ControlButton>
-            )}
-          </Controls>
-
-          <ActionSheet
-            ref={o => (this.ActionSheet = o)}
-            title={'Which one do you like ?'}
-            options={[
-              'Cancel',
-              'Add to Playlist',
-              'Add to Queue',
-              'View Album',
-              'View Artist',
-              'Share',
-            ]}
-            cancelButtonIndex={0}
-            destructiveButtonIndex={0}
-            onPress={index => {
-              /* do something */
+        {/* <Cover resizeMode={'contain'} source={currentTrack.artwork} /> */}
+        <View
+          style={{
+            marginTop: 50,
+            marginHorizontal: width >= 500 ? 80 : 0,
+          }}>
+          <FastImage
+            source={coverImg}
+            resizeMode={'contain'}
+            style={{
+              width: width - (width >= 500 ? 160 : 0),
+              height: width - (width >= 500 ? 160 : 0),
             }}
           />
-        </Container>
-      </ScrollList>
+        </View>
+        <EpisodeInfo>
+          <Title>{currentTrack.title}</Title>
+          <Author>{currentTrack.artist}</Author>
+        </EpisodeInfo>
+
+        <Controls stream={player.is_stream}>
+          {!player.is_stream && (
+            <ControlButton onPress={prev}>
+              <ControlIcon name="step-backwrad" family="fontisto" size={32} />
+            </ControlButton>
+          )}
+          <ControlButton
+            style={styles.styleBtn}
+            onPress={() => {
+              // player.playing ? (player.is_stream ? stop : pause) : play;
+              if (player.playing) {
+                if (player.is_stream) {
+                  Actions.pop();
+                  setTimeout(() => {
+                    stop();
+                  }, 500);
+                } else {
+                  pause();
+                }
+              } else {
+                play();
+              }
+            }}>
+            <ControlIcon
+              name={
+                player.playing ? (player.is_stream ? 'stop' : 'pause') : 'play'
+              }
+              family="fontisto"
+              size={32}
+            />
+          </ControlButton>
+          {!player.is_stream && (
+            <ControlButton onPress={next}>
+              <ControlIcon name="step-forward" family="fontisto" size={32} />
+            </ControlButton>
+          )}
+        </Controls>
+
+        <ActionSheet
+          ref={o => (this.ActionSheet = o)}
+          title={'Which one do you like ?'}
+          options={[
+            'Cancel',
+            'Add to Playlist',
+            'Add to Queue',
+            'View Album',
+            'View Artist',
+            'Share',
+          ]}
+          cancelButtonIndex={0}
+          destructiveButtonIndex={0}
+          onPress={index => {
+            /* do something */
+          }}
+        />
+      </Container>
     )
   );
 }
+
+const styles = StyleSheet.create({
+  styleBtn: {
+    height: 64,
+    width: 64,
+    borderRadius: 64 / 2,
+    backgroundColor: 'rgba(86, 101, 115, 0.4)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
 
 const mapStateToProps = state => ({
   player: state.player,

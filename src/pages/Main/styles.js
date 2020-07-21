@@ -30,12 +30,12 @@ export const HeadTitles = styled.Text`
 export const ChannelId = styled.TouchableOpacity`
   ${'' /* flex: 1; */}
   ${'' /* width: ${(width - 50) / 2.5}; */}
-  width: ${width}
+  width: ${width >= 500 ? width - 100 : width}
   ${'' /* height: ${(width - 30) / 2}; */}
 `;
 
 export const ChannelTitles = styled.Text`
-  font-size: 16px;
+  font-size: ${width >= 500 ? '24px' : '16px'};
   ${'' /* font-weight: bold; */}
   text-align: center;
   font-family: ${Fonts.FONTS.HEADTITLES};
