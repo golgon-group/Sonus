@@ -1,0 +1,44 @@
+[
+  {
+    "name": "City Radio Regular",
+    "image": require("/city_fm.jpg"),
+    "data": {
+      "id": "cityradio",
+      "title": "95.9 City Radio",
+      "artist": "City",
+      "url": "https://sc.cityradio.id/",
+      "artwork": require("~/assets/images/city_fm_square.jpg"),
+      "urlWeb": "cityradio.id/5.0",
+      "apiUrl": "https://api.cityradio.id/api",
+      "duration": 100
+    }
+  },
+  {
+    "name": "City Radio Mandarin",
+    "image": require("~/assets/images/city_fm_mandarin.jpg"),
+    "data": {
+      "id": "citymandarin",
+      "title": "95.9 City Radio",
+      "artist": "City Mandarin",
+      "url": "https://digital.cityradio.id/",
+      "artwork": require("~/assets/images/city_mandarin_square.jpg"),
+      "urlWeb": "cityradio.id/5.0",
+      "apiUrl": "https://api.cityradio.id/api/mandarin",
+      "duration": 100
+    }
+  },
+  {
+    "name": "Medan FM",
+    "image": require("~/assets/images/medan_fm.jpg"),
+    "data": {
+      "id": "medanfm",
+      "title": "96.3 Medan FM",
+      "artist": "Medan FM",
+      "url": "https://sc.medanfm.id/",
+      "artwork": require("~/assets/images/medan_fm_square.jpg"),
+      "urlWeb": "medanfm.id/2017",
+      "apiUrl": "https://api.medanfm.id/api",
+      "duration": 100
+    }
+  }
+]

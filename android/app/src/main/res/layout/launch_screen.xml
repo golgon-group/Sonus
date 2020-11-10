@@ -1,15 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="@drawable/background_splash"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
-    android:gravity="center"
-    android:orientation="vertical">
+    >
 
-    <pl.droidsonroids.gif.GifImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/splash_logo"
-        />
-</LinearLayout>
+    <!--suppress AndroidDomInspection -->
+
+    <ImageView
+        android:id="@+id/ivLogo"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/logo"
+        android:visibility="visible" />
+
+    <TextView
+        android:id="@+id/txtName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivLogo"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="200dp"
+        android:fontFamily="@font/proxima_nova_extrabold"
+        android:text="@string/app_name"
+        android:textColor="#FFFFFF"
+        android:textSize="84sp"
+        app:fontFamily="@font/proxima_nova_extrabold" />
+
+    <TextView
+        android:id="@+id/txtVersion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="@font/proxima_nova_regular"
+        android:text="@string/versionName"
+        android:textColor="#FFF"
+        android:textSize="18sp"
+        app:fontFamily="@font/proxima_nova_regular" />
+
+</RelativeLayout>

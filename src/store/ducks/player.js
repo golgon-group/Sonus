@@ -5,6 +5,8 @@ import Immutable from 'seamless-immutable';
  * Action Types & Creators
  */
 const {Types, Creators} = createActions({
+  setShowRequest: ['track'],
+  setShowSuccess: ['track'],
   setTrackRequest: ['track', 'trackId'],
   setTrackSuccess: ['track'],
   setPodcastRequest: ['podcast', 'podcastId'],
@@ -16,8 +18,11 @@ const {Types, Creators} = createActions({
   next: null,
   prev: null,
   stop: null,
+  like: null,
+  dislike: null,
   setFollowRequest: ['podcast'],
   setFollowSuccess: ['isFol'],
+  currentLiked: ['value'],
 });
 
 export const PlayerTypes = Types;
@@ -35,12 +40,19 @@ export const INITIAL_STATE = Immutable({
   is_stream: false,
   is_loading: false,
   isFollowing: false,
+  isLiked: false,
 });
 
 /**
  * Reducers to types
  */
 export const reducer = createReducer(INITIAL_STATE, {
+  [Types.SET_SHOW_SUCCESS]: (state, {track}) =>
+    state.merge({
+      track,
+      podcast: null,
+      current: track.id,
+    }),
   [Types.SET_TRACK_SUCCESS]: (state, {track}) =>
     state.merge({
       track,
@@ -57,11 +69,11 @@ export const reducer = createReducer(INITIAL_STATE, {
       is_stream: false,
       is_loading: false,
     }),
-  [Types.SET_LOADING]: state => state.merge({is_loading: true}),
+  [Types.SET_LOADING]: (state) => state.merge({is_loading: true}),
   [Types.SET_CURRENT]: (state, {id}) => state.merge({current: id}),
-  [Types.PLAY]: state => state.merge({playing: true}),
-  [Types.PAUSE]: state => state.merge({playing: false}),
-  [Types.STOP]: state =>
+  [Types.PLAY]: (state) => state.merge({playing: true}),
+  [Types.PAUSE]: (state) => state.merge({playing: false}),
+  [Types.STOP]: (state) =>
     state.merge({
       track: null,
       podcast: null,
@@ -72,4 +84,8 @@ export const reducer = createReducer(INITIAL_STATE, {
     }),
   [Types.SET_FOLLOW_SUCCESS]: (state, {isFol}) =>
     state.merge({isFollowing: isFol}),
+  [Types.CURRENT_LIKED]: (state, {value}) =>
+    state.merge({
+      isLiked: value,
+    }),
 });

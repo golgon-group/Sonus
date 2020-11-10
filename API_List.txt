@@ -1,0 +1,83 @@
+
+=============     MEDAN FM      ================
+
+#penyiar
+http://api.medanfm.id/api/penyiar
+http://api.medanfm.id/api/penyiar/<id>
+
+#chart category
+http://api.medanfm.id/api/chart/category
+
+#chart
+http://api.medanfm.id/api/chart/newest/<category>
+http://api.medanfm.id/api/chart/newest/umum
+
+#programs/shows
+http://api.medanfm.id/api/program
+http://api.medanfm.id/api/program/<id>
+
+#current program
+http://api.medanfm.id/api/program/current
+
+#news per page
+http://api.medanfm.id/api/berita/p/<page>
+
+#news per item
+http://api.medanfm.id/api/berita/<id>
+
+<string name="news_image_path">https://www.medanfm.id/2017/assets/news_image/</string>
+<string name="program_image_path">https://www.medanfm.id/2017/assets/program_image/</string>
+<string name="dj_image_path">https://www.medanfm.id/2017/assets/dj_image/</string>
+<string name="chart_image_path">https://www.medanfm.id/2017/assets/chart_image/</string>
+
+#now playing
+http://api.medanfm.id/api/nowplaying
+
+=============     CITY RADIO      ================
+
+#penyiar
+http://api.cityradio.id/api/penyiar
+http://api.cityradio.id/api/penyiar/<id>
+
+#chart category
+http://api.cityradio.id/api/chart/category
+
+#chart
+http://api.cityradio.id/api/chart/newest/<category>
+http://api.cityradio.id/api/chart/newest/umum
+
+#programs/shows
+http://api.cityradio.id/api/program
+http://api.cityradio.id/api/program/<id>
+
+#current program
+http://api.cityradio.id/api/program/current
+
+#news per page
+http://api.cityradio.id/api/berita/p/<page>
+
+#news per item
+http://api.cityradio.id/api/berita/<id>
+
+<string name="news_image_path">https://www.cityradio.id/CR2017/assets/news_image/</string>
+<string name="program_image_path">https://www.cityradio.id/CR2017/assets/program_image/</string>
+<string name="dj_image_path">https://www.cityradio.id/CR2017/assets/dj_image/</string>
+<string name="chart_image_path">https://www.cityradio.id/CR2017/assets/chart_image/</string>
+
+#now playing
+http://api.cityradio.id/api/nowplaying
+
+#get song cover
+https://itunes.apple.com/search?term=${artist}-${title}
+
+SHOUTCAST STATISTIK
+
+209.58.160.225:9590 ( City Radio )
+209.58.160.225:9630 ( Medan FM )
+
+/admin.cgi?mode=viewxml
+
+User : admin
+Password : jakartatimur2013
+
+(Basic Auth)

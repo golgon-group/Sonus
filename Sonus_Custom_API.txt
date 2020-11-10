@@ -1,0 +1,40 @@
+Dokumentasi API Like di apps Sonus
+
+Semua Request harus menggunakan header 
+sonus-apps-token : knksVZU27gkgRWM7nCL7WSc36xmqqUNj
+
+
+1. Https://api.cityradio.id/v2/like/<station>/<artis>/<judul>/<email>    [GET, DELETE]
+   GET: untuk mengambil data like email, Artis dan judul. 
+   --- Jika ada, maka akan dikembalikan object json.
+   --- Jika tidak ada, maka akan dikembalikan status 404 not found
+
+   --- Request menggunakan query string.
+       Contoh: [GET] https://api.cityradio.id/v2/like/cityfm/lady gaga/stupid love/hendra@golgon.co.id
+   
+   DELETE: untuk menghapus data like
+   --- Request menggunakan query string.
+       Contoh:[DELETE] https://api.cityradio.id/v2/like/cityfm/lady gaga/stupid love/hendra@golgon.co.id
+ 
+2. Https://api.cityradio.id/v2/like                            [POST]
+   POST: untuk simpan data like 
+   --- Setelah selesai simpan, akan dikembalikan object json.
+   --- Request data menggunakan json. Jadi harap ditaro di header content-type: application/json
+   --- Jika data Sudan ada, maka akan dikembalikan object json dengan status code 200
+   --- Jika belum ada, maka akan dikembalikan object ison dengan status 201
+   --- Template JSON yang dikirimkan:
+       {
+           "station":"medanfm",
+           "artis":"test artis",
+           "judul":"test judul",
+           "email":"email@test"
+       }
+
+3. Https://api.cityradio.id/v2/like/rekap/<station             [GET]
+   GET: untuk menampilkan rekap like. 
+   --- Jika tidak ada data, maka akan dikembalikan status code 404 Not Found
+
+4. Https://api.cityradio.id/v2/like/<station>/<email>          [GET]
+   GET: untuk menampilkan list like lagu dari user (by email) 
+   --- Bisa untuk ditampilkan di favorit.
+   --- Jika tidak ada data, maka akan dikembalikan status code 404 Not Found
