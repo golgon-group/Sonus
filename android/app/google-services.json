@@ -1,0 +1,97 @@
+{
+  "project_info": {
+    "project_number": "217314848363",
+    "firebase_url": "https://sonus-f5f62.firebaseio.com",
+    "project_id": "sonus-f5f62",
+    "storage_bucket": "sonus-f5f62.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:217314848363:android:d6710cb719b06cc9",
+        "android_client_info": {
+          "package_name": "com.cmg.sonus"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "217314848363-04ek3jbhsodcdk6kt4ffj8foub6o385g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cmg.sonus",
+            "certificate_hash": "0b250f739520cbe0b7d40aa0d64a56c1d5a47656"
+          }
+        },
+        {
+          "client_id": "217314848363-62nvs1p5o7a6sf7t51gecf8nhlreudv3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cmg.sonus",
+            "certificate_hash": "1d26a4d562c143c468eedd7ea2f698120c76e25b"
+          }
+        },
+        {
+          "client_id": "217314848363-cn1ldqciaoc12q8m6d8c8m8f7hp5jpdv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cmg.sonus",
+            "certificate_hash": "618195f282bb7c47c3c138a2ea197bdac375a372"
+          }
+        },
+        {
+          "client_id": "217314848363-edvq474do9vcaktjn2nt385a4o945d8o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cmg.sonus",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "217314848363-gj81uerbk07k8vi30nflkenbgbqb1l83.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cmg.sonus",
+            "certificate_hash": "f2ab6c91add35e889225a1cf038f9d34f3c46075"
+          }
+        },
+        {
+          "client_id": "217314848363-o4q3jgq00hg2p0o3qkdm63f8n1mvfspt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cmg.sonus",
+            "certificate_hash": "83d5717fb7b96adf3898086d8b697952591fde55"
+          }
+        },
+        {
+          "client_id": "217314848363-t8kuqno8j0aqm48sj1sfc2pfq88ectj3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2uvu2Hxij0WOFlIr-OOLJ5LT7eP1dF0E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "217314848363-t8kuqno8j0aqm48sj1sfc2pfq88ectj3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "217314848363-54o7ffmpcf8grn97vnbtpt848945etgt.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "id.cmg.sonus",
+                "app_store_id": "1452454178"
+              }
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-3255099610255589~5315007561"
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -20,7 +20,6 @@ DerivedData
 *.hmap
 *.ipa
 *.xcuserstate
-project.xcworkspace
 
 # Android/IntelliJ
 #
@@ -40,6 +39,7 @@ yarn-error.log
 buck-out/
 \.buckd/
 *.keystore
+!debug.keystore
 
 # fastlane
 #
@@ -52,12 +52,8 @@ buck-out/
 */fastlane/Preview.html
 */fastlane/screenshots
 
-# ios Pods and info
-ios/Pods/
-ios/PodFile.lock
-ios/Sonus/GoogleService-Info.plist
-ios/Sonus/Info.plist
+# Bundle artifact
+*.jsbundle
 
-# android
-android/app/google-services.json
-*.keystore
+# CocoaPods
+/ios/Pods/

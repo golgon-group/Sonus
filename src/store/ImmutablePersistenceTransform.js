@@ -10,6 +10,7 @@ const isImmutable = R.has('asMutable');
 const convertToJs = (state) => state.asMutable({deep: true});
 
 // optionally convert this object into a JS object if it is Immutable
+// @ts-ignore
 const fromImmutable = R.when(isImmutable, convertToJs);
 
 // convert this JS object into an Immutable object

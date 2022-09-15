@@ -11,10 +11,11 @@ import {
   pause,
   prev,
   next,
-  stop,
+  reset,
   like,
   dislike,
   setShows,
+  playback,
 } from './player';
 
 import {CommonTypes} from '@store/ducks/common';
@@ -49,10 +50,12 @@ export default function* rootSaga() {
     takeLatest(PlayerTypes.PLAY, play),
     takeLatest(PlayerTypes.PAUSE, pause),
 
+    takeLatest(PlayerTypes.PLAYBACK, playback),
+
     takeLatest(PlayerTypes.PREV, prev),
     takeLatest(PlayerTypes.NEXT, next),
 
-    takeLatest(PlayerTypes.STOP, stop),
+    takeLatest(PlayerTypes.RESET, reset),
 
     takeLatest(PlayerTypes.LIKE, like),
     takeLatest(PlayerTypes.DISLIKE, dislike),

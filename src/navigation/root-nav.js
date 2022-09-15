@@ -53,12 +53,14 @@ const {Popover, SlideInMenu, ContextMenu} = renderers;
 const SonusChannel = [
   {
     name: 'City Radio 95.9 FM',
+    // @ts-ignore
     image: require('@images/CityRadio.png'),
     data: {
       id: 'cityradio',
       title: '95.9 City Radio',
       artist: 'City',
       url: 'https://sc.cityradio.id/',
+      // @ts-ignore
       artwork: require('@images/city_fm_square.jpg'),
       urlWeb: 'cityradio.id/5.0',
       apiUrl: 'https://api.cityradio.id/api',
@@ -75,12 +77,14 @@ const SonusChannel = [
   },
   {
     name: 'City Mandarin 95.9 FM',
+    // @ts-ignore
     image: require('@images/CityMandarin.png'),
     data: {
       id: 'citymandarin',
       title: '95.9 City Radio',
       artist: 'City Mandarin',
       url: 'https://digital.cityradio.id/',
+      // @ts-ignore
       artwork: require('@images/city_mandarin_square.jpg'),
       urlWeb: 'cityradio.id/5.0',
       apiUrl: 'https://api.cityradio.id/api/mandarin',
@@ -97,12 +101,14 @@ const SonusChannel = [
   },
   {
     name: '96.3 Medan FM Studio',
+    // @ts-ignore
     image: require('@images/MedanFM.png'),
     data: {
       id: 'medanfm',
       title: '96.3 Medan FM',
       artist: 'Medan FM',
       url: 'https://sc.medanfm.id/',
+      // @ts-ignore
       artwork: require('@images/medan_fm_square.jpg'),
       urlWeb: 'medanfm.id/2017',
       apiUrl: 'https://api.medanfm.id/api',
@@ -157,7 +163,7 @@ function RadioMenu(props) {
     user,
     info,
     player,
-    stop,
+    reset,
   } = props;
 
   function findChannel(strChannel) {
@@ -166,7 +172,7 @@ function RadioMenu(props) {
       SonusChannel.find((el) => el.data.id == strChannel);
 
     if (player.current != null && player.playing) {
-      stop();
+      reset();
     }
 
     setChannelRequest(channel);
@@ -235,6 +241,7 @@ function RadioMenu(props) {
               width: width * 0.5,
               height: width * 0.2,
             }}
+            // @ts-ignore
             source={require('@images/CityRadio.png')}
             resizeMode={'contain'}
           />
@@ -264,6 +271,7 @@ function RadioMenu(props) {
               width: width * 0.5,
               height: width * 0.2,
             }}
+            // @ts-ignore
             source={require('@images/CityMandarin.png')}
             resizeMode={'contain'}
           />
@@ -295,6 +303,7 @@ function RadioMenu(props) {
               width: width * 0.5,
               height: width * 0.2,
             }}
+            // @ts-ignore
             source={require('@images/MedanFM.png')}
             resizeMode={'contain'}
           />
@@ -332,6 +341,7 @@ function Logout(props) {
 function rootNav(props) {
   return (
     <MenuProvider
+      backHandler={true}
       customStyles={{
         backdrop: {
           backgroundColor: '#000',
@@ -341,14 +351,14 @@ function rootNav(props) {
       style={{
         flexDirection: 'column',
         justifyContent: 'space-between',
-      }}
-      backHandler={true}>
+      }}>
       <NavigationContainer
         ref={(navigatorRef) => {
           NavigationService.setTopLevelNavigator(navigatorRef);
         }}>
         <Stack.Navigator
           initialRouteName={rootSwitch.loading}
+          // @ts-ignore
           screenOptions={(navigation, route) => ({
             gestureEnabled: false,
             headerStyle: {

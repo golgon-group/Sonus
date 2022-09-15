@@ -17,9 +17,10 @@ const {Types, Creators} = createActions({
   pause: null,
   next: null,
   prev: null,
-  stop: null,
+  reset: null,
   like: null,
   dislike: null,
+  playback: ['data'],
   setFollowRequest: ['podcast'],
   setFollowSuccess: ['isFol'],
   currentLiked: ['value'],
@@ -73,7 +74,7 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.SET_CURRENT]: (state, {id}) => state.merge({current: id}),
   [Types.PLAY]: (state) => state.merge({playing: true}),
   [Types.PAUSE]: (state) => state.merge({playing: false}),
-  [Types.STOP]: (state) =>
+  [Types.RESET]: (state) =>
     state.merge({
       track: null,
       podcast: null,

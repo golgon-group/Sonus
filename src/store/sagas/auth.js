@@ -24,11 +24,16 @@ import {
   statusCodes,
 } from '@react-native-community/google-signin';
 
+import {appleAuthAndroid} from '@invertase/react-native-apple-authentication';
+
 import AuthActions from '@store/ducks/auth';
 import CommonActions from '@store/ducks/common';
 import PlayerActions from '@store/ducks/player';
 
 import NavigationService from '@utils/navigation';
+
+import {v4 as uuid} from 'uuid';
+import {Platform} from 'react-native';
 
 export function* initAuth() {
   GoogleSignin.configure({
@@ -44,6 +49,32 @@ export function* initAuth() {
     // iosClientId:
     //   '217314848363-54o7ffmpcf8grn97vnbtpt848945etgt.apps.googleusercontent.com',
   });
+  // Generate secure, random values for state and nonce
+  const rawNonce = uuid();
+  const state = uuid();
+
+  // Configure the request
+  Platform.OS === 'android' &&
+    appleAuthAndroid.configure({
+      // The Service ID you registered with Apple
+      clientId: 'com.example.client-android',
+
+      // Return URL added to your Apple dev console. We intercept this redirect, but it must still match
+      // the URL you provided to Apple. It can be an empty route on your backend as it's never called.
+      redirectUri: 'https://example.com/auth/callback',
+
+      // The type of response requested - code, id_token, or both.
+      responseType: appleAuthAndroid.ResponseType.ALL,
+
+      // The amount of user information requested from Apple.
+      scope: appleAuthAndroid.Scope.ALL,
+
+      // Random nonce value that will be SHA256 hashed before sending to Apple.
+      nonce: rawNonce,
+
+      // Unique state value used to prevent CSRF attacks. A UUID will be generated if nothing is provided.
+      state,
+    });
 }
 
 export function* loginUser({method}) {

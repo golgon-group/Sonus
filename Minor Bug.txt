@@ -2,10 +2,10 @@
 - Sleep timer minute not go back to 0 (Need Refresh screen) (Fixed)
 - App crash after sleep execute (Fixed)
 
-
 - iOS react-native-popup-menu not showing (Becoz Flex: 1)
 - iOS Streaming sometimes crash, when received metadata or when change cover (if we run default)
 
 '__NSCFNumber' (0x1eb626978) to 'NSString' (0x1eb631f00)
 
 - ios cover different from android cover (Possible search not found then show default image)
+- ios metadata received not triggered after 2 / 3 song play (Bug)

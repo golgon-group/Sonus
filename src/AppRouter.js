@@ -6,6 +6,8 @@ import {connect} from 'react-redux';
 import Miniplayer from '@components/Miniplayer';
 import Router from '@navigation/root-nav';
 
+import crashlytics from '@react-native-firebase/crashlytics';
+
 class AppRouter extends React.Component {
   constructor(props) {
     super(props);
@@ -15,12 +17,15 @@ class AppRouter extends React.Component {
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    // crashlytics().log('crash on componentDidMount.');
+    // crashlytics().crash();
+  }
 
   componentWillUnmount() {}
 
   render() {
-    return <Router isGettingStart={true} />;
+    return <Router />;
   }
 }
 

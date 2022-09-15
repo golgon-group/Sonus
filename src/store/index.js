@@ -28,14 +28,26 @@ const sagaMiddleware = createSagaMiddleware({sagaMonitor});
 
 middlewares.push(sagaMiddleware);
 
-export default () => {
-  const composer = __DEV__
-    ? compose(applyMiddleware(...middlewares), console.tron.createEnhancer())
-    : compose(applyMiddleware(...middlewares));
+const composer = __DEV__
+  ? compose(applyMiddleware(...middlewares), console.tron.createEnhancer())
+  : compose(applyMiddleware(...middlewares));
 
-  const store = createStore(persistedReducer, composer);
-  const persistor = persistStore(store);
+const store = createStore(persistedReducer, composer);
+const persistor = persistStore(store);
 
-  sagaMiddleware.run(rootSaga);
-  return {store, persistor};
-};
+sagaMiddleware.run(rootSaga);
+
+export {store, persistor};
+export default store;
+
+// export default () => {
+//   const composer = __DEV__
+//     ? compose(applyMiddleware(...middlewares), console.tron.createEnhancer())
+//     : compose(applyMiddleware(...middlewares));
+
+//   const store = createStore(persistedReducer, composer);
+//   const persistor = persistStore(store);
+
+//   sagaMiddleware.run(rootSaga);
+//   return {store, persistor};
+// };

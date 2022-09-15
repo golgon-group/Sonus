@@ -14,7 +14,8 @@ import AppRouter from './AppRouter';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {Provider} from 'react-redux';
 
-import configStore from './store';
+// import configStore from './store';
+import {store, persistor} from './store';
 // import store2 from './store/index_no';
 import {MenuProvider} from 'react-native-popup-menu';
 import {PersistGate} from 'redux-persist/integration/react';
@@ -23,7 +24,7 @@ import {_navigator} from '@utils/navigation';
 
 import reactotron from 'reactotron-react-native';
 
-const {store, persistor} = configStore();
+// const {store, persistor} = configStore();
 
 export default class App extends Component {
   constructor(props) {

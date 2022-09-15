@@ -6,6 +6,7 @@ import {
   Dimensions,
   TouchableOpacity,
   ActivityIndicator,
+  Image as RNImage,
 } from 'react-native';
 
 import {connect, useDispatch} from 'react-redux';
@@ -71,16 +72,30 @@ function Player(props) {
     player.current != null && (
       <View style={styles.container}>
         <View style={[styles.cover, styles.shadow]}>
-          <Image
+          <RNImage
             source={coverImg}
-            resizeMode={'contain'}
+            resizeMethod={'scale'}
+            resizeMode={
+              player.current != null && currentTrack.artwork.length > 5
+                ? 'contain'
+                : 'stretch'
+            }
+            style={styles.ImgCover}
+          />
+          {/* <Image
+            source={coverImg}
+            resizeMode={
+              player.current != null && currentTrack.artwork.length > 5
+                ? 'contain'
+                : 'stretch'
+            }
             style={{
               width: width - imgWidthSizing - imgHeightSizing,
               height: width - imgWidthSizing - imgHeightSizing,
               borderColor: 'rgba(52, 52, 52, 0.2)',
               borderWidth: 0.5,
             }}
-          />
+          /> */}
         </View>
         <View style={styles.episodeInfo}>
           <Text
@@ -203,6 +218,12 @@ const styles = StyleSheet.create({
     marginTop: 30,
     // marginHorizontal: 80,
     alignItems: 'center',
+  },
+  ImgCover: {
+    width: width - imgWidthSizing - imgHeightSizing,
+    height: width - imgWidthSizing - imgHeightSizing,
+    borderColor: 'rgba(52, 52, 52, 0.2)',
+    borderWidth: 0.5,
   },
   episodeInfo: {
     marginLeft: 20,

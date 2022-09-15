@@ -28,6 +28,7 @@ import {
 
 import {
   appleAuth,
+  appleAuthAndroid,
   AppleButton,
 } from '@invertase/react-native-apple-authentication';
 
@@ -226,6 +227,7 @@ function SocialMethods(props) {
         />
       </View>
       {appleAuth.isSupported && (
+        // (appleAuthAndroid.isSupported || appleAuth.isSupported) && (
         <>
           <View style={{height: 20}} />
           <AppleButton
